@@ -1361,7 +1361,7 @@ impl TitleBar {
 /// Returns the result of a click on a button if it was pressed
 fn close_button(ui: &mut Ui, rect: Rect) -> Response {
     let close_id = ui.auto_id_with("window_close_button");
-    let response = ui.interact(rect, close_id, Sense::click());
+    let response = ui.interact(rect, close_id, Sense::click()).on_hover_cursor(CursorIcon::PointingHand);
     response
         .widget_info(|| WidgetInfo::labeled(WidgetType::Button, ui.is_enabled(), "Close window"));
 
