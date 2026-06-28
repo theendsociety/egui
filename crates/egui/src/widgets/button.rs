@@ -364,9 +364,16 @@ impl<'a> Button<'a> {
         layout = if has_frame_margin && (state != WidgetState::Inactive || frame_when_inactive) {
             layout.frame(frame)
         } else {
-            let mut temp_frame = Frame::new().inner_margin(frame.inner_margin);
-            temp_frame = temp_frame.stroke(Stroke::new(1.0f32, Color32::TRANSPARENT));
-            layout.frame(temp_frame)
+            let is_popup = ui.stack().iter().any(|s| s.classes.has("use_stock_selectable"));
+            if is_popup {
+                // original
+                layout.frame(Frame::new().inner_margin(frame.inner_margin))
+            } else {
+                // TES hack for selectable regression
+                let mut temp_frame = Frame::new().inner_margin(frame.inner_margin);
+                temp_frame = temp_frame.stroke(Stroke::new(1.0f32, Color32::TRANSPARENT));
+                layout.frame(temp_frame)
+            }
         };
 
         let mut prepared = layout.min_size(min_size).allocate(ui);
